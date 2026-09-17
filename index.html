@@ -12,7 +12,7 @@
     }
 
     html, body {
-      min-height: 100%;
+      height: 100%;
       background: #2a2a2a;
     }
 
@@ -26,14 +26,17 @@
     .page {
       position: relative;
       max-width: 430px;
-      min-height: 100vh;
+      height: 100%;
       margin: 0 auto;
       background: #f2f2f2;
+      overflow: hidden;
     }
 
     .doc {
-      position: relative;
-      padding: 20px 22px 64px;
+      height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 20px 22px 36px;
     }
 
     .doc p {
@@ -42,7 +45,6 @@
       line-height: 1.85;
       color: #333;
       word-break: break-all;
-      text-indent: 0;
       margin-bottom: 12px;
     }
 
@@ -59,23 +61,93 @@
       text-decoration: none;
     }
 
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 8px;
+      z-index: 20;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .close-btn::before,
+    .close-btn::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 18px;
+      height: 3px;
+      border-radius: 3px;
+      background: #e23d2d;
+    }
+
+    .close-btn::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .close-btn::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 28px;
+      padding: 0 12px calc(12px + env(safe-area-inset-bottom));
+    }
+
+    .actions button {
+      width: 120px;
+      height: 38px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .btn-reject {
+      border: 0;
+      background: #fff;
+      color: #333;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-agree {
+      border: 0;
+      background: #f08a28;
+      color: #fff;
+    }
+
     @media (min-width: 500px) {
+      html, body {
+        min-height: 100%;
+        height: auto;
+      }
+
       body {
         padding: 24px 0;
         background: #5b5b5b;
       }
 
       .page {
-        min-height: calc(100vh - 48px);
+        height: calc(100vh - 48px);
+        min-height: 640px;
         border-radius: 12px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
-        overflow: hidden;
       }
     }
   </style>
 </head>
 <body>
   <div class="page">
+    <button class="close-btn" type="button" aria-label="关闭" onclick="onReject()"></button>
+
     <main class="doc">
       <div>
         <p>最新更新时间：2021年11月02日</p>
@@ -83,7 +155,7 @@
 
       <p>尊敬的用户：</p>
 
-      <p class="indent" style="text-indent: 2em;">作为游戏的运营方，我们十分尊重您的个人信息和数据，并会尽全力保护您的个人信息和数据的安全可靠。为了给您提供更准确、更有个性化的服务，我们会按照本隐私权政策的规定使用和披露您的个人信息。除本隐私权政策另有规定外，在征得您的同意前，我们不会将这些信息向其他人或向第三方提供。我们会不定时更新本隐私权政策。您在同意本游戏服务使用协议之时，即表示您已经同意本隐私权政策的全部内容。本隐私权政策是本游戏服务使用协议不可分割的一部分。</p>
+      <p class="indent">作为游戏的运营方，我们十分尊重您的个人信息和数据，并会尽全力保护您的个人信息和数据的安全可靠。为了给您提供更准确、更有个性化的服务，我们会按照本隐私权政策的规定使用和披露您的个人信息。除本隐私权政策另有规定外，在征得您的同意前，我们不会将这些信息向其他人或向第三方提供。我们会不定时更新本隐私权政策。您在同意本游戏服务使用协议之时，即表示您已经同意本隐私权政策的全部内容。本隐私权政策是本游戏服务使用协议不可分割的一部分。</p>
       <p>另外，您需要承诺在您开始使用本产品时已经是成年人，如果您是未成年人，需要您的监护人同意您使用本产品并同意相关的服务条款和隐私政策。</p>
 
       <p>一、适用范围</p>
@@ -219,11 +291,46 @@
       <p>我们可能会适时对本指引进行修订。当本指引的条款发生变更时，我们会在版本更新时以适当的方式向您提示变更后的指引。请您仔细阅读变更后的隐私保护指引或指引内容，您继续使用游戏表示您同意我们按照更新后的隐私保护指引收集、处理或使用您的个人信息。</p>
 
       <div class="contact">
-          <p>淄博华金网络科技有限公司</p>
-          <p>邮箱：<a href="mailto:3160465743@qq.com">3160465743@qq.com</a></p>
-          <p>一般情况下，我们将在十五天内回复。</p>
+        <p>淄博华金网络科技有限公司</p>
+        <p>联系邮箱：<a href="mailto:3160465743@qq.com">3160465743@qq.com</a></p>
+        <p>一般情况下，我们将在十五天内回复。</p>
+      </div>
+
+      <div class="actions">
+        <button class="btn-reject" type="button" onclick="onReject()">拒绝</button>
+        <button class="btn-agree" type="button" onclick="onAgree()">同意</button>
       </div>
     </main>
   </div>
+
+  <script>
+    function notifyNative(action) {
+      try {
+        if (window.Android && typeof window.Android.onPrivacyResult === "function") {
+          window.Android.onPrivacyResult(action);
+          return;
+        }
+      } catch (e) {}
+
+      try {
+        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.privacy) {
+          window.webkit.messageHandlers.privacy.postMessage(action);
+          return;
+        }
+      } catch (e) {}
+
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: "privacy", action: action }, "*");
+      }
+    }
+
+    function onAgree() {
+      notifyNative("agree");
+    }
+
+    function onReject() {
+      notifyNative("reject");
+    }
+  </script>
 </body>
 </html>
